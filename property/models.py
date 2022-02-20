@@ -6,7 +6,10 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class Flat(models.Model):
     owner = models.CharField('ФИО владельца', max_length=200)
-    owner_pure_phone = PhoneNumberField('Нормализованный номер владельца',null=True, blank=True)
+    owner_pure_phone = PhoneNumberField(
+        'Нормализованный номер владельца',
+        null=True,
+        blank=True)
     owners_phonenumber = models.CharField('Номер владельца', max_length=20)
     new_building = models.NullBooleanField('Новостройка')
     created_at = models.DateTimeField(
@@ -50,7 +53,11 @@ class Flat(models.Model):
         null=True,
         blank=True,
         db_index=True)
-    liked_by = models.ManyToManyField('Person', related_name='liked_flat', blank=True, verbose_name='Кто лайкнул')
+    liked_by = models.ManyToManyField(
+        'Person',
+        related_name='liked_flat',
+        blank=True,
+        verbose_name='Кто лайкнул')
 
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
@@ -61,7 +68,28 @@ class Person(models.Model):
 
 
 class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user', verbose_name='Кто жаловался')
-    flat = models.ForeignKey(Flat, on_delete=models.CASCADE, related_name='flat', verbose_name='Квартира, на которую жаловались')
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='user',
+        verbose_name='Кто жаловался')
+    flat = models.ForeignKey(
+        Flat,
+        on_delete=models.CASCADE,
+        related_name='flat',
+        verbose_name='Квартира, на которую жаловались')
     like_text = models.TextField('Текст жалобы')
-    
+
+
+class Owner(models.Model):
+    owner = models.CharField('ФИО владельца', max_length=200)
+    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
+    owner_pure_phone = PhoneNumberField(
+        'Нормализованный номер владельца',
+        null=True,
+        blank=True)
+    flats_ownership = models.ManyToManyField(
+        'Flat',
+        related_name='flats_ownership',
+        verbose_name='Квартиры в собственности'
+    )
