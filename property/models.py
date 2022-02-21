@@ -5,12 +5,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Flat(models.Model):
-    owner = models.CharField('ФИО владельца', max_length=200)
-    owner_pure_phone = PhoneNumberField(
-        'Нормализованный номер владельца',
-        null=True,
-        blank=True)
-    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
     new_building = models.NullBooleanField('Новостройка')
     created_at = models.DateTimeField(
         'Когда создано объявление',
@@ -82,7 +76,11 @@ class Like(models.Model):
 
 
 class Owner(models.Model):
-    owner = models.CharField('ФИО владельца', max_length=200)
+    owner = models.CharField(
+        'ФИО владельца',
+        max_length=200,
+        db_index=True
+    )
     owners_phonenumber = models.CharField('Номер владельца', max_length=20)
     owner_pure_phone = PhoneNumberField(
         'Нормализованный номер владельца',
@@ -91,7 +89,8 @@ class Owner(models.Model):
     flats_ownership = models.ManyToManyField(
         'Flat',
         related_name='flats_ownership',
-        verbose_name='Квартиры в собственности'
+        verbose_name='Квартиры в собственности',
+        db_index=True
     )
 
     def __str__(self):
