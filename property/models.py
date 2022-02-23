@@ -45,7 +45,7 @@ class Flat(models.Model):
         db_index=True)
     liked_by = models.ManyToManyField(
         'Person',
-        related_name='liked_flat',
+        related_name='liked_flats',
         blank=True,
         verbose_name='Кто лайкнул')
 
@@ -61,7 +61,7 @@ class Like(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='user',
+        related_name='customers',
         verbose_name='Кто жаловался')
     flat = models.ForeignKey(
         Flat,
