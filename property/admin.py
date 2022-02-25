@@ -21,7 +21,7 @@ class FlatAdmin(admin.ModelAdmin):
 
 
 class LikeAdmin(admin.ModelAdmin):
-    raw_id_fields = ('user', 'flat')
+    raw_id_fields = ('customer', 'flat')
 
 
 class OwnerAdmin(admin.ModelAdmin):

@@ -58,7 +58,7 @@ class Person(models.Model):
 
 
 class Like(models.Model):
-    user = models.ForeignKey(
+    customer = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='customers',
@@ -66,7 +66,7 @@ class Like(models.Model):
     flat = models.ForeignKey(
         Flat,
         on_delete=models.CASCADE,
-        related_name='flat',
+        related_name='flats',
         verbose_name='Квартира, на которую жаловались')
     like_text = models.TextField('Текст жалобы')
 
